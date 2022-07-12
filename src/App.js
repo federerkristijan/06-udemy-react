@@ -5,9 +5,11 @@ import './App.css';
 
 function App() {
   const [movies, setMovies] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   // an alternative to .then blocks is
   async function fetchMoviesHandler() {
+    setIsLoading(true);
      const response = await fetch('https://swapi.dev/api/films/')
      const data = await response.json();
 
@@ -27,6 +29,7 @@ function App() {
           };
         });
         setMovies(transformedMovies);
+        setIsLoading(false);
       // });
   }
 
@@ -36,7 +39,10 @@ function App() {
         <button onClick={fetchMoviesHandler}>Fetch Movies</button>
       </section>
       <section>
-        <MoviesList movies={movies} />
+        {/* if the data is not loading, i.e .finished loading, show movies list */}
+        {!isLoading && <MoviesList movies={movies} /> }
+        {!isLoading && movies.length === 0 && <p>No movies to show.</p>}
+        {isLoading && <p>Loading...</p>}
       </section>
     </React.Fragment>
   );
