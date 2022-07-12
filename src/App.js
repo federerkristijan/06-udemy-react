@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 import MoviesList from "./components/MoviesList";
 import "./App.css";
@@ -9,7 +9,7 @@ function App() {
   const [error, setError] = useState(null);
 
   // an alternative to .then blocks is
-  async function fetchMoviesHandler() {
+  const fetchMoviesHandler = useCallback(async () => {
     setIsLoading(true);
     setError(null);
 
@@ -17,7 +17,7 @@ function App() {
     try {
       const response = await fetch("https://swapi.dev/api/films/");
       if (!response.ok) {
-        throw new Error('Somethign went wrong!');
+        throw new Error("Somethign went wrong!");
       }
 
       const data = await response.json();
@@ -42,7 +42,11 @@ function App() {
       setError(error.message);
     }
     setIsLoading(false);
-  }
+  }, []);
+
+  useEffect(() => {
+    fetchMoviesHandler();
+  }, [fetchMoviesHandler]);
 
   let content = <p>Found no movies</p>;
 
@@ -51,7 +55,7 @@ function App() {
   }
 
   if (movies.length === 0) {
-    content = <p>No movies to show.</p>
+    content = <p>No movies to show.</p>;
   }
 
   if (error) {
@@ -67,9 +71,7 @@ function App() {
       <section>
         <button onClick={fetchMoviesHandler}>Fetch Movies</button>
       </section>
-      <section>
-        {content}
-      </section>
+      <section>{content}</section>
     </React.Fragment>
   );
 }
