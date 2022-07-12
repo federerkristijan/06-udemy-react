@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-import MoviesList from "./components/MoviesList";
-import "./App.css";
+import MoviesList from './components/MoviesList';
+import './App.css';
 
 function App() {
-  const [movies, setMovies] = useState();
-  
-  function fetchMovieHandler() {
-    fetch("https://swapi.dev/api/films/")
+  const [movies, setMovies] = useState([]);
+
+  function fetchMoviesHandler() {
+    fetch('https://swapi.dev/api/films/')
       .then((response) => {
         // transforms json data into JS object
         return response.json();
@@ -28,7 +28,7 @@ function App() {
   return (
     <React.Fragment>
       <section>
-        <button onClick={fetchMovieHandler}>Fetch Movies</button>
+        <button onClick={fetchMoviesHandler}>Fetch Movies</button>
       </section>
       <section>
         <MoviesList movies={movies} />
