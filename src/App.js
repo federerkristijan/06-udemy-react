@@ -6,13 +6,18 @@ import './App.css';
 function App() {
   const [movies, setMovies] = useState([]);
 
-  function fetchMoviesHandler() {
-    fetch('https://swapi.dev/api/films/')
-      .then((response) => {
-        // transforms json data into JS object
-        return response.json();
-      })
-      .then((data) => {
+  // an alternative to .then blocks is
+  async function fetchMoviesHandler() {
+     const response = await fetch('https://swapi.dev/api/films/')
+     const data = await response.json();
+
+  // function fetchMoviesHandler() {
+  //   fetch('https://swapi.dev/api/films/')
+  //     .then((response) => {
+  //       // transforms json data into JS object
+  //       return response.json();
+  //     })
+      // .then((data) => {
         const transformedMovies = data.results.map((movieData) => {
           return {
             id: movieData.episode_id,
@@ -22,7 +27,7 @@ function App() {
           };
         });
         setMovies(transformedMovies);
-      });
+      // });
   }
 
   return (
