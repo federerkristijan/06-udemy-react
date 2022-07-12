@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-import MoviesList from './components/MoviesList';
-import './App.css';
+import MoviesList from "./components/MoviesList";
+import "./App.css";
 
 function App() {
   const [movies, setMovies] = useState([]);
